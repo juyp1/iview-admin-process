@@ -11,7 +11,7 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
-    "element-ui": "2.9.1",
+     
     "lodash": "4.17.15",
    
     "vue-codemirror": "^4.0.6",
@@ -41,9 +41,7 @@
     "xlsx": "^0.13.3"
   },
   "devDependencies": {
-    "element-ui": "2.9.1",
-    "lodash": "4.17.15",
-    
+    "lodash": "4.17.15",    
     "@vue/cli-plugin-babel": "^3.0.1",
     "@vue/cli-plugin-eslint": "^3.0.1",
     "@vue/cli-plugin-unit-mocha": "^3.0.1",
