@@ -1,4 +1,4 @@
- ###基于 iview
+### 基于 iview
  
 ## 菜单增加流程图组件 components/process
 ## 经过商业项目验证 放心使用
@@ -9,3 +9,4 @@
  - "vue-codemirror": "^4.0.6", -- 可以去掉 但是相关引用需要去掉  
  - "vuedraggable": "^2.16.0", 
  ```
+### qq 76542009
