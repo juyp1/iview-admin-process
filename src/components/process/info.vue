@@ -1,7 +1,7 @@
 <template>
-    <el-dialog
+    <Modal
             title="流程数据信息"
-            :visible.sync="dialogVisible"
+             v-model="dialogVisible"
             width="70%"
     >
         <!--一个高亮显示的插件-->
@@ -10,7 +10,7 @@
                 :options="options"
                 class="code"
         ></codemirror>
-    </el-dialog>
+    </Modal>
 </template>
 
 <script>
@@ -25,7 +25,7 @@
         data () {
             return {
                 dialogVisible: false,
-                flowJsonData: {},
+                flowJsonData: "",
                 options: {
                     mode: {name: 'javascript', json: true},
                     lineNumbers: true

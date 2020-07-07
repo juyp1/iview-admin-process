@@ -51,8 +51,8 @@
     /* 设置移动样式*/
     cursor: move;
     background-color: #F0F7FF;
-    /* border: 1px dashed #1879FF; */
-    /* border-left: 4px solid #1879FF; */
+    border: 1px dashed #1879FF; 
+   border-left: 4px solid #1879FF;
     padding-left: 5px;
 }
 
@@ -76,17 +76,17 @@
     /* 设置移动样式*/
     cursor: move;
     background-color: #F0F7FF;
-    /*box-shadow: #1879FF 0px 0px 12px 0px;*/
+    box-shadow: #1879FF 0px 0px 12px 0px;
     background-color: #F0F7FF;
-    /* border: 1px dashed #1879FF; */
+    border: 1px dashed #1879FF;
 }
 
 /*节点激活样式*/
 .ef-node-active {
     background-color: #F0F7FF;
-    /*box-shadow: #1879FF 0px 0px 12px 0px;*/
+    box-shadow: #1879FF 0px 0px 12px 0px;
     background-color: #F0F7FF;
-    border: 1px solid #1879FF;
+    /* border: 1px solid #1879FF; */
 }
 
 /*节点左侧的竖线*/

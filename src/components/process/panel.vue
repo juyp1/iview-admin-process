@@ -1,52 +1,54 @@
 <template>
   <div v-if="easyFlowVisible"
        style="height: calc(100vh);">
-    <el-row>
+    <Row>
       <!--顶部工具菜单-->
-      <el-col :span="24">
-        <div class="ef-tooltar">
-          <el-link type="primary"
-                   :underline="false">XXX车生产工艺路线</el-link>
-          <el-divider direction="vertical"></el-divider>
-          <el-button type="text"
-                     icon="el-icon-delete"
-                     size="large"
-                     @click="deleteElement"
-                     :disabled="!this.activeElement.type"></el-button>
-          <el-divider direction="vertical"></el-divider>
-          <el-button type="text"
-                     icon="el-icon-download"
-                     size="large"
-                     @click="downloadData"></el-button>
-          <!--                    <el-divider direction="vertical"></el-divider>-->
-          <!-- <el-button type="text" icon="el-icon-plus" size="large" @click="zoomAdd">1111</el-button> -->
-          <!--                    <el-divider direction="vertical"></el-divider>-->
-          <!--                    <el-button type="text" icon="el-icon-minus" size="large" @click="zoomSub"></el-button>-->
-          <div style="float: right;margin-right: 5px">
-            <el-button plain
-                       round
-                       @click="handleNewData"
-                       icon="el-icon-add"
-                       size="mini">清空</el-button>
-            <el-button plain
-                       round
-                       @click="dataInfo"
-                       icon="el-icon-add"
-                       size="mini">保存</el-button>
-            <el-button plain
-                       round
-                       @click="handleformmenu"
-                       icon="el-icon-add"
-                       size="mini">打开/关闭表单</el-button>
-            <!-- <el-button plain round icon="el-icon-document" @click="dataInfo" size="mini">流程信息</el-button>
-                        <el-button plain round @click="dataReloadA" icon="el-icon-refresh" size="mini">切换流程A</el-button>
-                        <el-button plain round @click="dataReloadB" icon="el-icon-refresh" size="mini">切换流程B</el-button> -->
+      <Col span="24">
+      <div class="ef-tooltar">
+        <!-- <el-link type="primary"
+                   :underline="false"></el-link> -->
+        <Button type="text">XXX车生产工艺路线</Button>
 
-            <!-- <el-button plain round @click="dataReloadD" icon="el-icon-refresh" size="mini">自定义样式</el-button> -->
-          </div>
+        <Button type="text"
+                icon="md-trash"
+                @click="deleteElement"
+                :disabled="!this.activeElement.type"></Button>
+        <!-- <Icon type="ios-cloud-download-outline" /> -->
+        <!-- <Button type="text"
+                icon="ios-cloud-download-outline"
+                @click="downloadData"></Button> -->
+        <!--                    <Divider direction="vertical"></Divider>-->
+        <!-- <Button type="text" icon="el-icon-plus" size="large" @click="zoomAdd">1111</Button> -->
+        <!--                    <Divider direction="vertical"></Divider>-->
+        <!--                    <Button type="text" icon="el-icon-minus" size="large" @click="zoomSub"></Button>-->
+        <div style="float: right;margin-right: 5px">
+          <Row :gutter="16">
+            <Col span="6"> <Button round
+                    type="info"
+                    @click="handleNewData"
+                    icon="ios-close">清空</Button></Col>
+            <Col span="6">
+            <Button type="success"
+                    round
+                    @click="dataInfo"
+                    icon="ios-add">保存</Button>
+            </Col>
+            <Col span="6">
+            <Button type="warning"
+                    round
+                    @click="handleformmenu"
+                    icon="ios-contract">打开/关闭表单</Button>
+            </Col>
+          </Row>
+          <!-- <Button plain round icon="el-icon-document" @click="dataInfo" size="mini">流程信息</Button>
+                        <Button plain round @click="dataReloadA" icon="el-icon-refresh" size="mini">切换流程A</Button>
+                        <Button plain round @click="dataReloadB" icon="el-icon-refresh" size="mini">切换流程B</Button> -->
+
+          <!-- <Button plain round @click="dataReloadD" icon="el-icon-refresh" size="mini">自定义样式</Button> -->
         </div>
-      </el-col>
-    </el-row>
+      </div>
+      </Col>
+    </Row>
     <div style="display: flex;height: calc(100% - 47px);">
 
       <div style="width: 190px;border-right: 1px solid #dce3e8;">
@@ -123,8 +125,8 @@ export default {
       type: Array,
       required: true
     },
-     loadinfo:{
-       type: Object,
+    loadinfo: {
+      type: Object,
       required: true
     }
   },
@@ -209,7 +211,7 @@ export default {
     }
   },
   mounted () {
-    
+
     this.jsPlumb = jsPlumb.getInstance()
     this.$nextTick(() => {
       // 默认加载流程A的数据、在这里可以根据具体的业务返回符合流程数据格式的数据即可
@@ -351,246 +353,285 @@ export default {
       if (this.activeElement.type === 'node') {
         this.deleteNode(this.activeElement.nodeId)
       } else if (this.activeElement.type === 'line') {
-        this.$confirm('确定删除所点击的线吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          var conn = this.jsPlumb.getConnections({
-            source: this.activeElement.sourceId,
-            target: this.activeElement.targetId
-          })[0]
-          this.jsPlumb.deleteConnection(conn)
-        }).catch(() => {
-        })
-      }
-    },
-    // 删除线
-    deleteLine (from, to) {
-      this.data.lineList = this.data.lineList.filter(function (line) {
-        if (line.from == from && line.to == to) {
-          return false
-        }
-        return true
-      })
-    },
-    // 改变连线
-    changeLine (oldFrom, oldTo) {
-      this.deleteLine(oldFrom, oldTo)
-    },
-    // 改变节点的位置
-    changeNodeSite (data) {
-      for (var i = 0; i < this.data.nodeList.length; i++) {
-        let node = this.data.nodeList[i]
-        if (node.id === data.nodeId) {
-          node.left = data.left
-          node.top = data.top
-        }
-      }
-    },
-    /**
-     * 拖拽结束后添加新的节点
-     * @param evt
-     * @param nodeMenu 被添加的节点对象
-     * @param mousePosition 鼠标拖拽结束的坐标
-     */
-    addNode (evt, nodeMenu, mousePosition) {
-      var screenX = evt.originalEvent.clientX, screenY = evt.originalEvent.clientY
-      let efContainer = this.$refs.efContainer
-      var containerRect = efContainer.getBoundingClientRect()
-      var left = screenX, top = screenY
-      // 计算是否拖入到容器中
-      if (left < containerRect.x || left > containerRect.width + containerRect.x || top < containerRect.y || containerRect.y > containerRect.y + containerRect.height) {
-        this.$message.error('请把节点拖入到画布中')
-        return
-      }
-      left = left - containerRect.x + efContainer.scrollLeft
-      top = top - containerRect.y + efContainer.scrollTop
-      // 居中
-      left -= 85
-      top -= 16
-      var nodeId = this.getUUID()
-      // 动态生成名字
-      var origName = nodeMenu.name
-      var nodeName = origName
-      var index = 1
-      while (index < 10000) {
-        var repeat = false
-        for (var i = 0; i < this.data.nodeList.length; i++) {
-          let node = this.data.nodeList[i]
-          if (node.name === nodeName) {
-            //  nodeName = origName + index 名字加索引
-            nodeName = origName
-            repeat = true
+        //   this.$confirm('确定删除所点击的线吗?', '提示', {
+        //     confirmButtonText: '确定',
+        //     cancelButtonText: '取消',
+        //     type: 'warning'
+        //   }).then(() => {
+        //     var conn = this.jsPlumb.getConnections({
+        //       source: this.activeElement.sourceId,
+        //       target: this.activeElement.targetId
+        //     })[0]
+        //     this.jsPlumb.deleteConnection(conn)
+        //   }).catch(() => {
+        //   })
+        // }
+        this.$Modal.confirm({
+          title: '提示',
+          content: '<p>确定删除所点击的线吗</p>',
+          onOk: () => {
+            var conn = this.jsPlumb.getConnections({
+              source: this.activeElement.sourceId,
+              target: this.activeElement.targetId
+            })[0]
+            this.jsPlumb.deleteConnection(conn)
+          },
+          onCancel: () => {
+            this.$Message.info('Clicked cancel');
           }
-        }
-        if (repeat) {
-          index++
-          continue
-        }
-        break
+        });
       }
-      var node = {
-        id: nodeId,
-        name: nodeName,
-        type: nodeMenu.type,
-        left: left + 'px',
-        top: top + 'px',
-        ico: nodeMenu.ico,
-        state: 'success'
-      }
-      /**
-       * 这里可以进行业务判断、是否能够添加该节点
-       */
-      this.data.nodeList.push(node)
-      this.$nextTick(function () {
-        this.jsPlumb.makeSource(nodeId, this.jsplumbSourceOptions)
-        this.jsPlumb.makeTarget(nodeId, this.jsplumbTargetOptions)
-        this.jsPlumb.draggable(nodeId, {
-          containment: 'parent'
-        })
-      })
-    },
-    /**
-     * 删除节点
-     * @param nodeId 被删除节点的ID
-     */
-    deleteNode (nodeId) {
-      this.$confirm('确定要删除节点' + nodeId + '?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        closeOnClickModal: false
-      }).then(() => {
-        /**
-         * 这里需要进行业务判断，是否可以删除
-         */
-        this.data.nodeList = this.data.nodeList.filter(function (node) {
-          if (node.id === nodeId) {
-            // 伪删除，将节点隐藏，否则会导致位置错位
-            // node.show = false
+      },
+      // 删除线
+      deleteLine(from, to) {
+        this.data.lineList = this.data.lineList.filter(function (line) {
+          if (line.from == from && line.to == to) {
             return false
           }
           return true
         })
-        this.$nextTick(function () {
-          this.jsPlumb.removeAllEndpoints(nodeId)
-        })
-      }).catch(() => {
-      })
-      return true
-    },
-    clickNode (nodeId) {
-      this.activeElement.type = 'node'
-      this.activeElement.nodeId = nodeId
-      if (this.isshowform) {
-        this.$refs.nodeForm.nodeInit(this.data, nodeId)
-      }
-
-    },
-    // 是否具有该线
-    hasLine (from, to) {
-      for (var i = 0; i < this.data.lineList.length; i++) {
-        var line = this.data.lineList[i]
-        if (line.from === from && line.to === to) {
-          return true
+      },
+      // 改变连线
+      changeLine(oldFrom, oldTo) {
+        this.deleteLine(oldFrom, oldTo)
+      },
+      // 改变节点的位置
+      changeNodeSite(data) {
+        for (var i = 0; i < this.data.nodeList.length; i++) {
+          let node = this.data.nodeList[i]
+          if (node.id === data.nodeId) {
+            node.left = data.left
+            node.top = data.top
+          }
         }
-      }
-      return false
-    },
-    // 是否含有相反的线
-    hashOppositeLine (from, to) {
-      return this.hasLine(to, from)
-    },
-    nodeRightMenu (nodeId, evt) {
-      this.menu.show = true
-      this.menu.curNodeId = nodeId
-      this.menu.left = evt.x + 'px'
-      this.menu.top = evt.y + 'px'
-    },
-    repaintEverything () {
-      console.log('重绘')
-      this.jsPlumb.repaint()
-    },
-    // 流程数据信息
-    dataInfo () {
-      this.flowInfoVisible = true
-      this.$nextTick(function () {
-        console.log(this.data)
-        this.$refs.flowInfo.init()
-      })
-    },
-    // 加载流程图
-    dataReload (data) {
-      this.easyFlowVisible = false
-      this.data.nodeList = []
-      this.data.lineList = []
-      this.$nextTick(() => {
-        data = lodash.cloneDeep(data)
-        this.easyFlowVisible = true
-        this.data = data
-        this.$nextTick(() => {
-          this.jsPlumb = jsPlumb.getInstance()
-          this.$nextTick(() => {
-            this.jsPlumbInit()
+      },
+      /**
+       * 拖拽结束后添加新的节点
+       * @param evt
+       * @param nodeMenu 被添加的节点对象
+       * @param mousePosition 鼠标拖拽结束的坐标
+       */
+      addNode(evt, nodeMenu, mousePosition) {
+        var screenX = evt.originalEvent.clientX, screenY = evt.originalEvent.clientY
+        let efContainer = this.$refs.efContainer
+        var containerRect = efContainer.getBoundingClientRect()
+        var left = screenX, top = screenY
+        // 计算是否拖入到容器中
+        if (left < containerRect.x || left > containerRect.width + containerRect.x || top < containerRect.y || containerRect.y > containerRect.y + containerRect.height) {
+          this.$message.error('请把节点拖入到画布中')
+          return
+        }
+        left = left - containerRect.x + efContainer.scrollLeft
+        top = top - containerRect.y + efContainer.scrollTop
+        // 居中
+        left -= 85
+        top -= 16
+        var nodeId = this.getUUID()
+        // 动态生成名字
+        var origName = nodeMenu.name
+        var nodeName = origName
+        var index = 1
+        while (index < 10000) {
+          var repeat = false
+          for (var i = 0; i < this.data.nodeList.length; i++) {
+            let node = this.data.nodeList[i]
+            if (node.name === nodeName) {
+              //  nodeName = origName + index 名字加索引
+              nodeName = origName
+              repeat = true
+            }
+          }
+          if (repeat) {
+            index++
+            continue
+          }
+          break
+        }
+        var node = {
+          id: nodeId,
+          name: nodeName,
+          type: nodeMenu.type,
+          left: left + 'px',
+          top: top + 'px',
+          ico: nodeMenu.ico,
+          state: 'success'
+        }
+        /**
+         * 这里可以进行业务判断、是否能够添加该节点
+         */
+        this.data.nodeList.push(node)
+        this.$nextTick(function () {
+          this.jsPlumb.makeSource(nodeId, this.jsplumbSourceOptions)
+          this.jsPlumb.makeTarget(nodeId, this.jsplumbTargetOptions)
+          this.jsPlumb.draggable(nodeId, {
+            containment: 'parent'
           })
         })
-      })
-    },
-    // // 模拟载入数据dataA
-    // dataReloadA () {
-    //     this.dataReload(getDataA())
-    // },
-    // 模拟载入数据dataB
-    // dataReloadB () {
-    //     this.dataReload(getDataB())
-    // },
-    // 模拟载入数据dataC
-    
-    handleNewData () {
-      this.dataReload(this.ui.newdata)
+      },
+      /**
+       * 删除节点
+       * @param nodeId 被删除节点的ID
+       */
+      deleteNode(nodeId) {
+        // this.$confirm('确定要删除节点' + nodeId + '?', '提示', {
+        //   confirmButtonText: '确定',
+        //   cancelButtonText: '取消',
+        //   type: 'warning',
+        //   closeOnClickModal: false
+        // }).then(() => {
+        //   /**
+        //    * 这里需要进行业务判断，是否可以删除
+        //    */
+        //   this.data.nodeList = this.data.nodeList.filter(function (node) {
+        //     if (node.id === nodeId) {
+        //       // 伪删除，将节点隐藏，否则会导致位置错位
+        //       // node.show = false
+        //       return false
+        //     }
+        //     return true
+        //   })
+        //   this.$nextTick(function () {
+        //     this.jsPlumb.removeAllEndpoints(nodeId)
+        //   })
+        // }).catch(() => {
+        // })
+        // return true
+          this.$Modal.confirm({
+          title: '提示',
+          content: `确定要删除节点${nodeId}?`,
+          onOk: () => {
+               /**
+           * 这里需要进行业务判断，是否可以删除
+           */
+          this.data.nodeList = this.data.nodeList.filter(function (node) {
+            if (node.id === nodeId) {
+              // 伪删除，将节点隐藏，否则会导致位置错位
+              // node.show = false
+              return false
+            }
+            return true
+          })
+          this.$nextTick(function () {
+            this.jsPlumb.removeAllEndpoints(nodeId)
+          })
+          },
+          onCancel: () => {
+           return true
+          }
+          
+        });
+      },
+      clickNode(nodeId) {
+        this.activeElement.type = 'node'
+        this.activeElement.nodeId = nodeId
+        if (this.isshowform) {
+          this.$refs.nodeForm.nodeInit(this.data, nodeId)
+        }
 
-    },
-    // 模拟载入数据dataD
-    // dataReloadD () {
-    //     this.dataReload(getDataD())
-    // },
-    zoomAdd () {
-      if (this.zoom >= 1) {
-        return
+      },
+      // 是否具有该线
+      hasLine(from, to) {
+        for (var i = 0; i < this.data.lineList.length; i++) {
+          var line = this.data.lineList[i]
+          if (line.from === from && line.to === to) {
+            return true
+          }
+        }
+        return false
+      },
+      // 是否含有相反的线
+      hashOppositeLine(from, to) {
+        return this.hasLine(to, from)
+      },
+      nodeRightMenu(nodeId, evt) {
+        this.menu.show = true
+        this.menu.curNodeId = nodeId
+        this.menu.left = evt.x + 'px'
+        this.menu.top = evt.y + 'px'
+      },
+      repaintEverything() {
+        console.log('重绘')
+        this.jsPlumb.repaint()
+      },
+      // 流程数据信息
+      dataInfo() {
+        this.flowInfoVisible = true
+        this.$nextTick(function () {
+          console.log(this.data)
+          this.$refs.flowInfo.init()
+        })
+      },
+      // 加载流程图
+      dataReload(data) {
+        this.easyFlowVisible = false
+        this.data.nodeList = []
+        this.data.lineList = []
+        this.$nextTick(() => {
+          data = lodash.cloneDeep(data)
+          this.easyFlowVisible = true
+          this.data = data
+          this.$nextTick(() => {
+            this.jsPlumb = jsPlumb.getInstance()
+            this.$nextTick(() => {
+              this.jsPlumbInit()
+            })
+          })
+        })
+      },
+      // // 模拟载入数据dataA
+      // dataReloadA () {
+      //     this.dataReload(getDataA())
+      // },
+      // 模拟载入数据dataB
+      // dataReloadB () {
+      //     this.dataReload(getDataB())
+      // },
+      // 模拟载入数据dataC
+
+      handleNewData() {
+        this.dataReload(this.ui.newdata)
+
+      },
+      // 模拟载入数据dataD
+      // dataReloadD () {
+      //     this.dataReload(getDataD())
+      // },
+      zoomAdd() {
+        if (this.zoom >= 1) {
+          return
+        }
+        this.zoom = this.zoom + 0.1
+        this.$refs.efContainer.style.transform = `scale(${this.zoom})`
+        this.jsPlumb.setZoom(this.zoom)
+      },
+      zoomSub() {
+        if (this.zoom <= 0) {
+          return
+        }
+        this.zoom = this.zoom - 0.1
+        this.$refs.efContainer.style.transform = `scale(${this.zoom})`
+        this.jsPlumb.setZoom(this.zoom)
+      },
+      // 下载数据
+      downloadData() {
+        // this.$confirm('确定要下载该流程数据吗？', '提示', {
+        //   confirmButtonText: '确定',
+        //   cancelButtonText: '取消',
+        //   type: 'warning',
+        //   closeOnClickModal: false
+        // }).then(() => {
+        //   var datastr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(this.data, null, '\t'))
+        //   var downloadAnchorNode = document.createElement('a')
+        //   downloadAnchorNode.setAttribute('href', datastr)
+        //   downloadAnchorNode.setAttribute('download', 'data.json')
+        //   downloadAnchorNode.click()
+        //   downloadAnchorNode.remove()
+        //   this.$message.success('正在下载中,请稍后...')
+        // }).catch(() => {
+        // })
       }
-      this.zoom = this.zoom + 0.1
-      this.$refs.efContainer.style.transform = `scale(${this.zoom})`
-      this.jsPlumb.setZoom(this.zoom)
-    },
-    zoomSub () {
-      if (this.zoom <= 0) {
-        return
-      }
-      this.zoom = this.zoom - 0.1
-      this.$refs.efContainer.style.transform = `scale(${this.zoom})`
-      this.jsPlumb.setZoom(this.zoom)
-    },
-    // 下载数据
-    downloadData () {
-      this.$confirm('确定要下载该流程数据吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        closeOnClickModal: false
-      }).then(() => {
-        var datastr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(this.data, null, '\t'))
-        var downloadAnchorNode = document.createElement('a')
-        downloadAnchorNode.setAttribute('href', datastr)
-        downloadAnchorNode.setAttribute('download', 'data.json')
-        downloadAnchorNode.click()
-        downloadAnchorNode.remove()
-        this.$message.success('正在下载中,请稍后...')
-      }).catch(() => {
-      })
     }
   }
-}
 </script>
 
 <style>

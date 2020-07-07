@@ -5,49 +5,49 @@
         编辑
       </div>
       <div class="ef-node-form-body">
-        <el-form :model="node"
-                 ref="dataForm"
-                 label-width="80px"
-                 v-show="type === 'node'">
-          <el-form-item label="类型">
-            <el-input v-model="node.type"
-                      :disabled="true"></el-input>
-          </el-form-item>
-          <el-form-item label="名称">
-            <el-input v-model="node.name"></el-input>
-          </el-form-item>
-          <!-- <el-form-item label="left坐标">
-                        <el-input v-model="node.left"></el-input>
-                    </el-form-item>
-                    <el-form-item label="top坐标">
-                        <el-input v-model="node.top"></el-input>
-                    </el-form-item>
-                    <el-form-item label="ico图标">
-                        <el-input v-model="node.ico"></el-input>
-                    </el-form-item> -->
-          <el-form-item>
-            <el-button icon="el-icon-close"
-                       @click="deleteElement">删除</el-button>
-            <el-button type="primary"
-                       icon="el-icon-check"
-                       @click="save">保存</el-button>
-          </el-form-item>
-        </el-form>
+        <Form :model="node"
+              ref="dataForm"
+              label-width="80px"
+              v-show="type === 'node'">
+          <FormItem label="类型">
+            <Input v-model="node.type"
+                   :disabled="true"></Input>
+          </FormItem>
+          <FormItem label="名称">
+            <Input v-model="node.name"></Input>
+          </FormItem>
+          <!-- <FormItem label="left坐标">
+                        <Input v-model="node.left"></Input>
+                    </FormItem>
+                    <FormItem label="top坐标">
+                        <Input v-model="node.top"></Input>
+                    </FormItem>
+                    <FormItem label="ico图标">
+                        <Input v-model="node.ico"></Input>
+                    </FormItem> -->
+          <FormItem>
+            <Button icon="ios-close"
+                    @click="deleteElement">删除</Button>
+            <Button type="primary"
+                    icon="ios-add"
+                    @click="save">保存</Button>
+          </FormItem>
+        </Form>
 
-        <el-form :model="line"
-                 ref="dataForm"
-                 label-width="80px"
-                 v-show="type === 'line'">
-          <el-form-item label="条件">
-            <el-input v-model="line.label"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button icon="el-icon-close">重置</el-button>
-            <el-button type="primary"
-                       icon="el-icon-check"
-                       @click="saveLine">保存</el-button>
-          </el-form-item>
-        </el-form>
+        <Form :model="line"
+              ref="dataForm"
+              label-width="80px"
+              v-show="type === 'line'">
+          <FormItem label="条件">
+            <Input v-model="line.label"></Input>
+          </FormItem>
+          <FormItem>
+            <Button icon="ios-refresh-circle-outline">重置</Button>
+            <Button type="primary"
+                    icon="icon-add"
+                    @click="saveLine">保存</Button>
+          </FormItem>
+        </Form>
       </div>
       <!--            <div class="el-node-form-tag"></div>-->
     </div>
@@ -59,7 +59,7 @@
 import { cloneDeep } from 'lodash'
 
 export default {
-   
+
   data () {
     return {
       visible: true,
@@ -95,7 +95,7 @@ export default {
     },
     save () {
       this.data.nodeList.filter((node) => {
-      
+
         if (node.id === this.node.id) {
           node.name = this.node.name
           node.left = this.node.left

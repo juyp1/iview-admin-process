@@ -13,12 +13,9 @@
     <!-- 节点名称 -->
     <div class="ef-node-text"
          :show-overflow-tooltip="true">
-      <el-tooltip class="item"
-                  effect="light"
-                  :content="node.content"
-                  placement="top-start">
+      <Tooltip  :content="node.name">
         <span class="flow-node-drag ef-node-text-drag"> {{node.name}}</span>
-      </el-tooltip>
+      </Tooltip>
 
     </div>
     <!-- 节点状态图标 -->
