@@ -376,8 +376,10 @@ export default [
     path: '/ef',
     name: 'ef',
     meta: {
-      hideInBread: true
 
+      title: '组件',
+      href: 'https://lison16.github.io/iview-admin-doc/#/',
+      icon: 'ios-book'
     },
     component: Main,
     children: [
@@ -389,6 +391,15 @@ export default [
           title: '流程图'
         },
         component: () => import('@/view/ef/index.vue')
+      },
+      {
+        path: 'ef2',
+        name: '进度日期',
+        meta: {
+          icon: 'ios-bug',
+          title: '流程图'
+        },
+        component: () => import('@/view/ef/index2.vue')
       }
     ]
   },

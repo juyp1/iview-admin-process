@@ -3,8 +3,11 @@
        ref="tool">
     <div v-for="menu  in  menuList"
          :key="menu.id">
-      <span class="ef-node-pmenu"
-            @click="menu.open = !menu.open"><i :class="{'el-icon-caret-bottom': menu.open,'el-icon-caret-right': !menu.open}"></i>&nbsp;{{menu.name}}</span>
+      <!-- <span class="ef-node-pmenu"
+            @click="menu.open = !menu.open">
+            <i :class="{'el-icon-caret-bottom': menu.open,'el-icon-caret-right': !menu.open}">
+              </i>&nbsp;{{menu.name}}
+      </span> -->
       <ul v-show="menu.open"
           class="ef-node-menu-ul">
         <draggable @end="end"
