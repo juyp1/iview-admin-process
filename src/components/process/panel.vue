@@ -211,7 +211,6 @@ export default {
     }
   },
   mounted () {
-
     this.jsPlumb = jsPlumb.getInstance()
     this.$nextTick(() => {
       // 默认加载流程A的数据、在这里可以根据具体的业务返回符合流程数据格式的数据即可
@@ -255,12 +254,10 @@ export default {
             this.data.nodeList.map(item => {
               if (item.id == from) {
                 typeid = item.type
-                
               }
               if (item.id === to) {
-                 
                 item.prevprocessid = typeid
-              } 
+              }
             })
           }
         })
@@ -388,9 +385,9 @@ export default {
             this.jsPlumb.deleteConnection(conn)
           },
           onCancel: () => {
-            this.$Message.info('Clicked cancel');
+            this.$Message.info('Clicked cancel')
           }
-        });
+        })
       }
     },
     // 删除线
@@ -530,7 +527,7 @@ export default {
           return true
         }
 
-      });
+      })
     },
     clickNode (nodeId) {
       this.activeElement.type = 'node'
@@ -538,7 +535,6 @@ export default {
       if (this.isshowform) {
         this.$refs.nodeForm.nodeInit(this.data, nodeId)
       }
-
     },
     // 是否具有该线
     hasLine (from, to) {
@@ -602,7 +598,6 @@ export default {
 
     handleNewData () {
       this.dataReload(this.ui.newdata)
-
     },
     // 模拟载入数据dataD
     // dataReloadD () {

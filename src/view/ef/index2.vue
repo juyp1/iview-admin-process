@@ -10,30 +10,30 @@
 
 <script>
 import Gantt from '@/components/vuegannt/index.vue'
-  export default {
-    
-    name: '',
-    components:{
-      Gantt
-    },
-    data() {
-      return {
-         tasks: {
+export default {
+
+  name: '',
+  components: {
+    Gantt
+  },
+  data () {
+    return {
+      tasks: {
         data: [
           { id: 1, text: '电视机组装', start_date: '2020-05-06', duration: 31, progress: 0.6 },
           { id: 2, text: '汽车组装', start_date: '2020-06-06', duration: 31, progress: 0 },
-          { id: 3, text: '飞机组装', start_date: '2020-07-10', duration: 31, progress: 0 },
+          { id: 3, text: '飞机组装', start_date: '2020-07-10', duration: 31, progress: 1 }
           // {id: 10, text: 'Task #2', start_date: '2017-04-04', duration: 3, progress: 0.4}
         ],
         links: [
-          { id: 1, source: 1, target: 2, type: '0' }
+          
         ]
       },
       selectedTask: null,
       messages: []
-      }
-    },
-    filters: {
+    }
+  },
+  filters: {
     toPercent (val) {
       if (!val) return '0'
       return Math.round((+val) * 100)
@@ -42,7 +42,7 @@ import Gantt from '@/components/vuegannt/index.vue'
       return `${obj.getFullYear()} / ${obj.getMonth() + 1} / ${obj.getDate()}`
     }
   },
-   methods: {
+  methods: {
     selectTask (task) {
       this.selectedTask = task
       console.log('1111')
@@ -53,6 +53,7 @@ import Gantt from '@/components/vuegannt/index.vue'
       if (this.messages.length > 40) {
         this.messages.pop()
       }
+       console.log('2222')
     },
 
     logTaskUpdate (id, mode, task) {
@@ -60,8 +61,7 @@ import Gantt from '@/components/vuegannt/index.vue'
       let message = `Task ${mode}: ${id} ${text}`
       this.addMessage(message)
       console.log(id, task)
-      this.tasks.data.push( { id: id, text: text, start_date: '2020-07-07', duration: 21, progress: 0.6 },)
-
+      this.tasks.data.push({ id: id, text: text, start_date: '2020-07-07', duration: 21, progress: 0.6 })
     },
 
     logLinkUpdate (id, mode, link) {
@@ -72,7 +72,7 @@ import Gantt from '@/components/vuegannt/index.vue'
       this.addMessage(message)
     }
   }
-  }
+}
 </script>
 
 <style  scoped>

@@ -46,7 +46,6 @@ export default {
               type: 'task1',
               name: '工序1',
               content: '我是一个粉刷匠',
-              type: '1',
               ico: 'el-icon-time',
               // 自定义覆盖样式
               state: 'warning',
@@ -84,9 +83,9 @@ export default {
               }
             }
           ]
-        },
-         
-      ],
+        }
+
+      ]
     }
   },
   methods: {
